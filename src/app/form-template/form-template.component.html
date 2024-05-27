@@ -1,0 +1,38 @@
+<div class="container mt-2">
+  <div class="card">
+  <div class="card-header">Form Template</div>
+  <div class="card-body">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div  *ngFor="let item of formTemplate$; let i = index;" class="col-md-6 mb-2">
+          <!-- <div class="col-md-6"> -->
+            <ng-container [ngSwitch]="item.textField">
+              <div  *ngSwitchCase="'input'">
+                <label class="form-label">{{ item.label }}</label>
+                <input class="form-control" [formControlName]="item.label" />
+              </div>
+
+              <div  *ngSwitchCase="'select'">
+                <app-form-select [field]="item" [form]="form" ></app-form-select>
+              </div>
+
+              <div  *ngSwitchCase="'checkbox'">
+                <div class="form-check mt-4">
+                  <input class="form-check-input" type="checkbox" [formControlName]="item.label">
+                  <label class="form-check-label">{{ item.label }}</label>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+
+        <!-- </div> -->
+      </div>
+
+
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit</button>
+    </form>
+
+  </div>
+</div>
+
+</div>

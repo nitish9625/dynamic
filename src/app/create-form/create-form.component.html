@@ -1,0 +1,107 @@
+<div class="container">
+  <div class="card mt-2">
+    <div class="card-header">Create Form</div>
+    <div class="card-body">
+      <button class="btn btn-primary" (click)="addItems()">Add item</button>
+      <form [formGroup]="dynamicForm$" (ngSubmit)="submit()">
+        <div formArrayName="items">
+          @for (item of items.controls; track item; let i=$index) {
+            <div [formGroupName]="i">
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <div class="form-group">
+                  <label class="form-label">Label <span class="text-danger">*</span> </label>
+                  <input type="text" class="form-control" formControlName="label" />
+                  @if (item.get('label')?.invalid && item.get('label')?.touched) {
+                    <div class="text-danger">
+                      This is required.
+                    </div>
+                  }
+                  </div>
+
+                </div>
+                <div class="col-md-4 mb-2">
+                  <div class="form-group">
+                     <label class="form-label">Text Field <span class="text-danger">*</span></label>
+                  <ng-select formControlName="textField" >
+                    <ng-option value="input">Input</ng-option>
+                    <ng-option value="select">Select Box</ng-option>
+                    <ng-option value="textArea">Text Area</ng-option>
+                    <ng-option value="checkbox">Checkbox</ng-option>
+                  </ng-select>
+                  </div>
+
+                </div>
+                @if (item.get('textField')?.value == 'select') {
+                  <div class="col-md-4 mb-2">
+                    <div class="form-group">
+                      <label class="form-label">Option Type</label>
+                      <ng-select formControlName="optionType">
+                        <ng-option value="custom">Custom</ng-option>
+                        <ng-option value="api">API</ng-option>
+                      </ng-select>
+                    </div>
+                  </div>
+                }
+
+                <div class="col-md-4 mb-2">
+                  <div class="form-group">
+                    <label class="form-label">Validation</label>
+                  <ng-select formControlName="validation" [multiple]="true">
+                     <ng-option value="required">Required</ng-option>
+                     <ng-option value="email">Email</ng-option>
+                     <ng-option value="pattern">Pattern</ng-option>
+                     <ng-option value="maxLength">MaxLength</ng-option>
+                  </ng-select>
+                  </div>
+
+
+                </div>
+                @if (item.get('optionType')?.value == 'custom') {
+                  <div class="col-md-4 mb-2">
+                    <div class="form-group">
+                      <label class="form-label">Select Option</label>
+                    <textarea class="form-control" rows="2" formControlName="selectOption"></textarea>
+                    </div>
+
+                  </div>
+                }
+
+                @if (item.get('optionType')?.value == 'api') {
+                  <div class="col-md-4 mb-2">
+                    <div class="form-group">
+                      <label class="form-label">API Endpoint</label>
+                      <input type="text" class="form-control" formControlName="apiEndPoint" />
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-2">
+                    <div class="form-group">
+                      <label class="form-label">Display Expr</label>
+                    <input type="text" class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-2">
+                    <div class="form-group">
+                      <label class="form-label">Value Expr</label>
+                      <input type="text" class="form-control" />
+                    </div>
+                  </div>
+
+                }
+
+                <div class="col-md-1 mt-4">
+                  <button class="btn btn-danger" (click)="removeItem(i)">Remove</button>
+                </div>
+              </div>
+
+
+            </div>
+          }
+        </div>
+        <div class="text-end">
+          <button class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
